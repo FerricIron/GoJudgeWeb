@@ -7,16 +7,16 @@ import (
 )
 
 type User struct {
-	Uid         int    `gorm:"AUTO_INCREMENT;PRIMARY_KEY;NOT NULL"`
+	Uid         int    `gorm:"AUTO_INCREMENT;PRIMARY_KEY"`
 	Username    string `gorm:"type:varchar(20);unique_index;NOT NULL"`
 	Nickname    string `gorm:"type:varchar(20);NOT NULL"`
 	Password    string `gorm:"type:char(32);NOT NULL"`
 	Description string `gorm:"type:varchar(255)"`
-	School      School `gorm:"ForeignKey:sid;AssociationForeignKey:sid"`
-	Sid         int
-	Privilege   int `gorm:"type:int;NOT NULL"`
-	Submitcount int `gorm:"type:int;NOT NULL"`
-	Solved      int `gorm:"type:int;NOT NULL"`
+	School      School `gorm:"ForeignKey:Sid;"`
+	Sid         int    `gorm:"type:int;NOT NULL"`
+	Privilege   int    `gorm:"type:int;NOT NULL"`
+	SubmitCount int    `gorm:"type:int;NOT NULL"`
+	Solved      int    `gorm:"type:int;NOT NULL"`
 }
 
 func pass2md5(password string) (md5Password string) {
@@ -32,7 +32,7 @@ func Test() {
 		Nickname:    "test",
 		Password:    pass2md5("test"),
 		Privilege:   0,
-		Submitcount: 0,
+		SubmitCount: 0,
 		Solved:      0,
 	}
 	db, err := openConnect()

@@ -15,6 +15,10 @@ const dbport string = "3306"
 var DSN string = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True", username, password, dbadress, dbport, dbname)
 
 func init() {
+	initTables()
+}
+
+func initTables() {
 	db, err := gorm.Open("mysql", DSN)
 	defer db.Close()
 	if err != nil {
@@ -22,7 +26,13 @@ func init() {
 	}
 	//check table exit
 	db.AutoMigrate(&School{})
-	db.CreateTable(&User{})
+	db.AutoMigrate(&User{})
+	db.AutoMigrate(&Submit{})
+	db.AutoMigrate(&Problem{})
+	db.AutoMigrate(&Contest{})
+	db.AutoMigrate(&ContestInfo{})
+	db.AutoMigrate(&ContestRegister{})
+	db.AutoMigrate(&SourceCode{})
 
 }
 func openConnect() (db *gorm.DB, err error) {
