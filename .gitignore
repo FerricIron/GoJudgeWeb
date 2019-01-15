@@ -14,3 +14,4 @@
 # Vendor
 /vendor/*
 !/vendor/vendor.json
+.idea
