@@ -1,13 +1,15 @@
 package main
 
-import "github.com/gin-gonic/gin"
-
+import (
+	"github.com/ferriciron/GoJudgeWeb/routers"
+	"github.com/gin-gonic/gin"
+)
 func main(){
-	r:=gin.Default()
-	r.GET("/ping", func(context *gin.Context) {
-		context.JSON(200,gin.H{
-			"message":"pong",
-		})
-	})
+
+	r:=gin.New()
+	r.Use(gin.Logger())
+	r.Use(gin.Recovery())
+
+	routers.SetRouters(r)
 	r.Run()
 }
