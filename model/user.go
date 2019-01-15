@@ -1,4 +1,4 @@
-package db
+package model
 func login(username,password string)(bool bool,err error){
 	ret,err:=db.Query(`SELECT password FROM USER WHERE username=?;`,username)
 	if err!=nil{
