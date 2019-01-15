@@ -9,7 +9,7 @@
 | nickname    | varchar  | NO       |             | 昵称           |
 | password    | char(32) | NO       |             | 32位加盐MD5    |
 | description | varchar  | YES      |             | 用户描述       |
-| schoolid    | int      | YES      |             | 学校ID         |
+| sid         | int      | YES      |             | 学校ID         |
 | privilege   | int      | NO       |             | 权限号         |
 | submitcount | int      | NO       |             | 总计提交数     |
 | solved      | int      | NO       |             | 解决问题数     |
@@ -18,7 +18,7 @@
 
 | 字段名     | 类型    | 是否可空 | 约束        | 备注           |
 | ---------- | ------- | -------- | ----------- | -------------- |
-| schoolid   | int     | NO       | primary_key | AUTO_INCREMENT |
+| sid        | int     | NO       | primary_key | AUTO_INCREMENT |
 | schoolname | varchar | NO       | unique      |                |
 | shortname  | varchar | NO       |             | 简称           |
 
