@@ -14,16 +14,18 @@ var DSN string = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True",u
 
 func init() {
 	db,err:=gorm.Open("mysql",DSN)
+	defer db.Close()
 	if err!=nil{
 		panic("Can not connect database.Check config plz\n")
 	}
 	//check table exit
+	if !db.HasTable(&School{}){
+		db.CreateTable(&School{}).GetErrors()
+	}
 	if !db.HasTable(&User{}){
 		db.CreateTable(&User{})
 	}
-	if !db.HasTable(&School{}){
-		db.CreateTable(&School{})
-	}
+
 }
 func openConnect()(db *gorm.DB,err error){
 	db,err=gorm.Open("mysql",DSN)
