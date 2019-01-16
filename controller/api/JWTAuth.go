@@ -6,16 +6,15 @@ import (
 	"net/http"
 )
 
-func JWTAuth(c *gin.Context){
-	token:=c.PostForm("token")
-	if token==""{
-		c.JSON(http.StatusOK,gin.H{
-			"errCode":common.TokenNotExist,
-			"message":"Token not exist",
+func JWTAuth(c *gin.Context) {
+	token := c.GetHeader("Authorization")
+	if token == "" {
+		c.JSON(http.StatusOK, gin.H{
+			"errCode": common.TokenNotExist,
+			"message": "Token not exist",
 		})
-		c.Redirect(http.StatusMovedPermanently,"authorize/login")
+		c.Redirect(http.StatusMovedPermanently, "authorize/login")
 		return
 	}
-
 
 }

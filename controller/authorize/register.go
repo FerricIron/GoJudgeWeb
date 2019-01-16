@@ -8,41 +8,42 @@ import (
 )
 
 type registerForm struct {
-	Username 		string 	`form:"username"`
-	Password 		string 	`form:"password"`
-	nickname 		string 	`form:"nickname"`
-	description		string 	`form:"description"`
-	sid				int		`form:"sid"`
+	Username    string `form:"username"`
+	Password    string `form:"password"`
+	nickname    string `form:"nickname"`
+	description string `form:"description"`
+	sid         int    `form:"sid"`
 }
-func Register(c *gin.Context)  {
+
+func Register(c *gin.Context) {
 	var register registerForm
-	if err:=c.ShouldBind(&register);err!=nil{
+	if err := c.ShouldBind(&register); err != nil {
 		c.JSON(http.StatusOK,
 			gin.H{
-				"errCode":common.InvalidForm,
-				"message":err.Error(),
-		})
+				"errCode": common.InvalidForm,
+				"message": err.Error(),
+			})
 		c.Abort()
 	}
-	user :=model.User{
-		Username:register.Username,
-		Password:register.Password,
-		Nickname:register.nickname,
-		Description:register.description,
-		Sid:register.sid,
+	user := model.User{
+		Username:    register.Username,
+		Password:    register.Password,
+		Nickname:    register.nickname,
+		Description: register.description,
+		Sid:         register.sid,
 	}
-	err:=model.AddUser(&user)
-	if err!=nil{
+	err := model.AddUser(&user)
+	if err != nil {
 		c.JSON(http.StatusOK,
 			gin.H{
-				"errCode":common.UserExist,
-				"message":err.Error(),
-		})
+				"errCode": common.UserExist,
+				"message": err.Error(),
+			})
 		c.Abort()
 	}
 	c.JSON(http.StatusOK,
 		gin.H{
-			"errCode":common.Success,
-			"message":"Create User Success",
-	})
+			"errCode": common.Success,
+			"message": "Create User Success",
+		})
 }

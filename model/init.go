@@ -24,11 +24,10 @@ func initTables() {
 	if err != nil {
 		panic("Can not connect database.Check config plz\n")
 	}
-	//check table exit
 	db.AutoMigrate(&School{})
 	db.AutoMigrate(&User{})
-	db.AutoMigrate(&Submit{})
 	db.AutoMigrate(&Problem{})
+	db.AutoMigrate(&Submit{})
 	db.AutoMigrate(&Contest{})
 	db.AutoMigrate(&ContestInfo{})
 	db.AutoMigrate(&ContestRegister{})
