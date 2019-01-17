@@ -7,16 +7,16 @@ import (
 )
 
 type User struct {
-	Uid         int    `gorm:"AUTO_INCREMENT;PRIMARY_KEY"`
-	Username    string `gorm:"type:varchar(20);unique_index;NOT NULL"`
-	Nickname    string `gorm:"type:varchar(20);NOT NULL"`
-	Password    string `gorm:"type:char(32);NOT NULL"`
-	Description string `gorm:"type:varchar(255)"`
-	School      School `gorm:"ForeignKey:Sid;"`
-	Sid         int    `gorm:"type:int;NOT NULL"`
-	Privilege   int    `gorm:"type:int;NOT NULL"`
-	SubmitCount int    `gorm:"type:int;NOT NULL"`
-	Solved      int    `gorm:"type:int;NOT NULL"`
+	Uid         int    `gorm:"AUTO_INCREMENT;PRIMARY_KEY" json:"uid"`
+	Username    string `gorm:"type:varchar(20);unique_index;NOT NULL" json:"username"`
+	Nickname    string `gorm:"type:varchar(20);NOT NULL" json:"nickname"`
+	Password    string `gorm:"type:char(32);NOT NULL" json:"password,omitempty"`
+	Description string `gorm:"type:varchar(255)" json:"description"`
+	School      School `gorm:"ForeignKey:Sid;" json:"school"`
+	Sid         int    `gorm:"type:int;NOT NULL" json:"sid"`
+	Privilege   int    `gorm:"type:int;NOT NULL" json:"privilege"`
+	SubmitCount int    `gorm:"type:int;NOT NULL" json:"submitcount"`
+	Solved      int    `gorm:"type:int;NOT NULL" json:"solved"`
 }
 
 func pass2md5(password string) (md5Password string) {
@@ -34,19 +34,18 @@ func InsertUser(user *User) (err error) {
 	}
 	return db.Create(user).First(user).Error
 }
-func CheckUserPassword(username, password string) (uid, privilege int, err error) {
+func CheckUserPassword(username, password string) (user User, err error) {
 	pass := pass2md5(password)
 	db, err := openConnect()
 	defer db.Close()
 	if err != nil {
-		return -1, 0, err
+		return User{}, err
 	}
-	var user User
 	err = db.Where("username = ? AND password = ?", username, pass).First(&user).Error
 	if err != nil {
-		return -1, 0, err
+		return user, err
 	}
-	return user.Uid, user.Privilege, err
+	return 
 }
 func Test() {
 	user := User{

@@ -1,6 +1,7 @@
 package authorize
 
 import (
+	"encoding/json"
 	"github.com/ferriciron/GoJudgeWeb/common"
 	"github.com/ferriciron/GoJudgeWeb/model"
 	"github.com/gin-gonic/gin"
@@ -45,7 +46,7 @@ func Login(c *gin.Context) {
 			})
 		return
 	}
-	uid, privilege, err := model.CheckUserPassword(login.Username, login.Password)
+	user, err := model.CheckUserPassword(login.Username, login.Password)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusOK,
 			gin.H{
@@ -55,7 +56,7 @@ func Login(c *gin.Context) {
 		return
 	}
 	var j common.JWT
-	token, err := j.GenerateToken(uid, privilege)
+	token, err := j.GenerateToken(user.Uid, user.Privilege)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{
 			"errCode": common.TokenComponentUnavaliable,
@@ -64,8 +65,16 @@ func Login(c *gin.Context) {
 		return
 	}
 	c.Header("token", token)
+	ret,err:=json.Marshal(&user)
+	if err!=nil{
+		c.AbortWithStatusJSON(http.StatusOK,gin.H{
+			"errCode":common.JSONComponentUnavaliable,
+			"message":err.Error(),
+		})
+		return
+	}
 	c.JSON(http.StatusOK, gin.H{
 		"errCode": common.Success,
-		"message": "ok",
+		"message": string(ret),
 	})
 }

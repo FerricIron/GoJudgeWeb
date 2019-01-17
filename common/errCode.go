@@ -4,6 +4,7 @@ const (
 	Success                   	= 0
 
 	DataBaseUnavaliable		  	= 2
+	JSONComponentUnavaliable	= 3
 
 	TokenComponentUnavaliable 	= 300
 	UserExist                 	= 10100
