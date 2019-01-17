@@ -25,12 +25,14 @@ func pass2md5(password string) (md5Password string) {
 	md5Password = fmt.Sprint(hex.EncodeToString(md5Ctx.Sum(nil)))
 	return
 }
-func AddUser(user *User) (err error) {
+func InsertUser(user *User) (err error) {
 	user.Password = pass2md5(user.Password)
 	db, err := openConnect()
 	defer db.Close()
-	err = db.Create(&user).Error
-	return
+	if err != nil {
+		return
+	}
+	return db.Create(user).First(user).Error
 }
 func CheckUserPassword(username, password string) (uid, privilege int, err error) {
 	pass := pass2md5(password)

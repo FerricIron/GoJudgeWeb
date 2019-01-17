@@ -16,3 +16,11 @@ type Submit struct {
 	TimeCost   int        `gorm:"type:int"`
 	Info       string     `gorm:"type:varchar(256)"`
 }
+func InsertSubmit(submit *Submit)(err error){
+	db,err:=openConnect()
+	defer db.Close()
+	if err!=nil{
+		return
+	}
+	return db.Create(submit).First(submit).Error
+}
