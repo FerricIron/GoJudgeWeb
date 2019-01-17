@@ -1,4 +1,4 @@
-package moudle
+package common
 
 import (
 	"bufio"

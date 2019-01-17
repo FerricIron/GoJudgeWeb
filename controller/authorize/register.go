@@ -46,7 +46,7 @@ func Register(c *gin.Context) {
 		Description: register.description,
 		Sid:         register.sid,
 	}
-	err := model.AddUser(&user)
+	err := model.InsertUser(&user)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusOK,
 			gin.H{

@@ -13,8 +13,8 @@ func JWTAuth(c *gin.Context) {
 			"errCode": common.TokenNotExist,
 			"message": "Token not exist",
 		})
-		c.Redirect(http.StatusMovedPermanently, "authorize/login")
-		return
+		//c.Redirect(http.StatusMovedPermanently, "authorize/login")
+		c.Abort()
 	}
 
 }

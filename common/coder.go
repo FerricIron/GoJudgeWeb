@@ -1,11 +1,11 @@
-package moudle
+package common
 
 import (
-	"../def"
 	"bytes"
 	"encoding/binary"
 	"encoding/json"
 	"fmt"
+	"github.com/ferriciron/gojudge/def"
 	"hash/adler32"
 	"io"
 )
