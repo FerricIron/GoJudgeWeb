@@ -30,6 +30,7 @@
 | problemname | varchar | NO       |             |                |
 | author      | varchar | NO       |             | 创建者         |
 | description | varchar | NO       |             | 题面描述       |
+| privilege   | int     | NO       |             | 题目权限       |
 | property    | int     | NO       |             | 题目类型       |
 | submitcount | int     | NO       |             | 总提交数       |
 | solved      | int     | NO       |             | ac次数         |
@@ -51,6 +52,24 @@
 | status    | int     | NO       |             | 当前状态       |
 | timecost  | int     | YES      |             | 时间花费       |
 | info      | varchar | YES      |             | 编译或运行信息 |
+
+### status
+
+| 状态码 | 含义           | 备注                         |
+| ------ | -------------- | ---------------------------- |
+| 0      | 收到提交       |                              |
+| 1      | 提交至评测队列 |                              |
+| 2      | 正在评测       | 此时有收到部分评测机返回数据 |
+| 3      | AC             | 评测结束                     |
+| 4      | WA             |                              |
+| 5      | TLE            |                              |
+| 6      | MLE            |                              |
+| 7      | OLE            |                              |
+| 8      | CE             | 存在info                     |
+| 9      | RuntimeError   | 存在info                     |
+| 10     | RepresentError |                              |
+
+
 
 ## sourcecode
 
