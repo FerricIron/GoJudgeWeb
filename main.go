@@ -8,6 +8,7 @@ import (
 )
 func main() {
 	common.ParseConfig()
+	go common.ConfigFileWatching()
 	r := gin.New()
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
