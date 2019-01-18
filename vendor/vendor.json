@@ -15,6 +15,12 @@
 			"revisionTime": "2019-01-09T01:32:44Z"
 		},
 		{
+			"checksumSHA1": "3DogKiUssVJjMAg452DPNZ0AmBs=",
+			"path": "github.com/go-ini/ini",
+			"revision": "6ed8d5f64cd79a498d1f3fab5880cc376ce41bbe",
+			"revisionTime": "2019-01-03T01:53:35Z"
+		},
+		{
 			"checksumSHA1": "wmiJbuFVCxg22zwXIeLsVCudyeY=",
 			"path": "github.com/go-sql-driver/mysql",
 			"revision": "c45f530f8e7fe40f4687eaa50d0c8c5f1b66f9e0",
