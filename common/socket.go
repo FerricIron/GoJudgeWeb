@@ -102,3 +102,7 @@ func (socket *Socket) RemoteAddr() net.Addr {
 func (socket *Socket) LocalAddr() net.Addr {
 	return socket.conn.LocalAddr()
 }
+
+type SocketInterface interface {
+	StructToBytes() (data []byte,err error)
+}

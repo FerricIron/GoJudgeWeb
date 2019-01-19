@@ -59,7 +59,7 @@ func ConfigFileWatching(){
 			if changeTime>lastChangeTime {
 				lastChangeTime=changeTime
 				ParseConfig()
-				// there need log , but I want to moyu
+				// there needs a log , but I want to moyu
 			}
 			time.Sleep(watchingSleepTime*time.Second)
 		}

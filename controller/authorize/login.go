@@ -10,7 +10,7 @@ import (
 
 type loginForm struct {
 	Username string `form:"username" binding:"required"`
-	Password string `form:"password" binding:"required`
+	Password string `form:"password" binding:"required"`
 }
 
 func CheckLoginForm(form loginForm) bool {

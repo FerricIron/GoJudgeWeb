@@ -8,9 +8,9 @@ import (
 )
 
 type registerForm struct {
-	Username    string `form:"username" binding:"required`
-	Password    string `form:"password" binding:"required`
-	nickname    string `form:"nickname" binding:"required`
+	Username    string `form:"username" binding:"required"`
+	Password    string `form:"password" binding:"required"`
+	nickname    string `form:"nickname" binding:"required"`
 	description string `form:"description"`
 	sid         int    `form:"sid"`
 }

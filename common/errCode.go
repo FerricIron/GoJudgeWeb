@@ -18,3 +18,16 @@ const (
 	InvalidParams 				= 10400
 	InvalidForm   				= 10401
 )
+
+const (
+	JudgeFinished = iota
+	AcceptCode
+	WrongAnwser
+	ComplierError
+	TimeLimitError
+	ComlierTimeLimitError
+	MemoryLimitError
+	OuputLimitError
+	RunTimeError
+	OtherError = -1
+)
