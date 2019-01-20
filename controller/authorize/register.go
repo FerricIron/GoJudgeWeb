@@ -10,9 +10,9 @@ import (
 type registerForm struct {
 	Username    string `form:"username" binding:"required"`
 	Password    string `form:"password" binding:"required"`
-	nickname    string `form:"nickname" binding:"required"`
-	description string `form:"description"`
-	sid         int    `form:"sid"`
+	Nickname    string `form:"nickname" binding:"required"`
+	Description string `form:"description"`
+	Sid         int    `form:"sid"`
 }
 func CheckRegisterForm(form registerForm) bool {
 	if !CheckLoginForm(loginForm{form.Username,form.Password}){
@@ -42,9 +42,9 @@ func Register(c *gin.Context) {
 	user := model.User{
 		Username:    register.Username,
 		Password:    register.Password,
-		Nickname:    register.nickname,
-		Description: register.description,
-		Sid:         register.sid,
+		Nickname:    register.Nickname,
+		Description: register.Description,
+		Sid:         register.Sid,
 	}
 	err := model.InsertUser(&user)
 	if err != nil {
