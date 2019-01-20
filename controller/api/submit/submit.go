@@ -1,15 +1,17 @@
 package submit
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"github.com/ferriciron/GoJudgeWeb/common"
 	"github.com/ferriciron/GoJudgeWeb/controller/api"
 	"github.com/ferriciron/GoJudgeWeb/model"
 	"github.com/gin-gonic/gin"
-	"net"
+	"io/ioutil"
 	"net/http"
 	"time"
+	"unsafe"
 )
 
 type submitForm struct {
@@ -20,7 +22,7 @@ type submitForm struct {
 }
 type submitStruct struct {
 	SubmitID   int    `json:"submitID"`
-	ProblemID  int    `json:"problemId"`
+	ProblemID  int    `json:"problemID"`
 	CodeSource []byte `json:"codeSource"`
 	Language   int    `json:"language"`
 }
@@ -43,37 +45,27 @@ func (submit *submitStruct) StructToBytes() (data []byte, err error) {
 }
 
 func submitToJudgeServer(submit submitStruct) {
-	listenAddress := fmt.Sprintf("%s:%s", common.GlobalConfig.JudgeServer.Address, common.GlobalConfig.JudgeServer.Port)
-	net, err := net.Dial("tcp", listenAddress)
-	defer net.Close()
-	// need log
-	if err != nil {
+	listenAddress := fmt.Sprintf("http://%s:%s/submit_task", common.GlobalConfig.JudgeServer.Address, common.GlobalConfig.JudgeServer.Port)
+	fmt.Print(listenAddress)
+	client := http.Client{}
+	data,_:=submit.StructToBytes()
+	requests,err:=http.NewRequest("POST",listenAddress,bytes.NewReader(data))
+	if err!=nil{
 		fmt.Print(err.Error())
 	}
-	socket := common.SocketFromConn(net)
-	encoder := common.NewEnCoder()
-	decoder := common.NewDecoder()
-	err = encoder.SendStruct(socket, &submit)
-	// need log
+	requests.Header.Set("Content-Type", "application/json;charset=UTF-8")
+	resp,err:=client.Do(requests)
+	defer resp.Body.Close()
+	if err!=nil{
+		fmt.Print(err)
+	}
+	respBytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Print(err.Error())
+		fmt.Println(err.Error())
+		return
 	}
-	var response responseStruct
-	for {
-		err = decoder.ReadStruct(socket, &response)
-		//need logs
-		if err != nil {
-			fmt.Print(err)
-			break
-		} else {
-			if response.JudgeNode == response.AllNode || response.ErrCode != common.AcceptCode {
-
-				return
-			}
-			//need update
-			fmt.Print(response)
-		}
-	}
+	str := (*string)(unsafe.Pointer(&respBytes))
+	fmt.Println(*str)
 
 	return
 }
@@ -98,6 +90,7 @@ func Submit(c *gin.Context) {
 			})
 		return
 	}
+
 	problem, err := model.SelectProblem(submit.ProblemID)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusOK,

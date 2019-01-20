@@ -32,8 +32,8 @@ func (j *JWT) CreateToken(claims CustomClaims) (string, error) {
 	return token.SignedString([]byte(getSigningKey()))
 }
 func (j *JWT) ParseToken(tokenString string) (*CustomClaims, error) {
-	token, err := jwt.ParseWithClaims(tokenString, &CustomClaims{}, func(token *jwt.Token) (i interface{}, e error) {
-		return j.SigningKey, nil
+	token, err := jwt.ParseWithClaims(tokenString, &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
+		return []byte(getSigningKey()), nil
 	})
 	if err != nil {
 		if ve, ok := err.(jwt.ValidationError); ok {
@@ -48,6 +48,7 @@ func (j *JWT) ParseToken(tokenString string) (*CustomClaims, error) {
 			}
 		}
 	}
+
 	if claims, ok := token.Claims.(*CustomClaims); ok && token.Valid {
 		return claims, nil
 	}

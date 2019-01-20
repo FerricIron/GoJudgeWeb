@@ -7,7 +7,7 @@ import (
 )
 
 func JWTAuth(c *gin.Context) {
-	token := c.GetHeader("Authorization")
+	token := c.GetHeader("token")
 	if token == "" {
 		c.JSON(http.StatusOK, gin.H{
 			"errCode": common.TokenNotExist,
