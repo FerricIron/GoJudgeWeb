@@ -1,13 +1,17 @@
 package main
 
-import "github.com/gin-gonic/gin"
-
-func main(){
-	r:=gin.Default()
-	r.GET("/ping", func(context *gin.Context) {
-		context.JSON(200,gin.H{
-			"message":"pong",
-		})
-	})
-	r.Run()
+import (
+	"fmt"
+	"github.com/ferriciron/GoJudgeWeb/common"
+	"github.com/ferriciron/GoJudgeWeb/routers"
+	"github.com/gin-gonic/gin"
+)
+func main() {
+	common.ParseConfig()
+	go common.ConfigFileWatching()
+	r := gin.New()
+	r.Use(gin.Logger())
+	r.Use(gin.Recovery())
+	routers.SetRouters(r)
+	r.Run(fmt.Sprintf("%s:%s",common.GlobalConfig.WebServer.Address,common.GlobalConfig.WebServer.Port))
 }

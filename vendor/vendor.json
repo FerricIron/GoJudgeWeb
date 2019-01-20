@@ -15,6 +15,12 @@
 			"revisionTime": "2019-01-09T01:32:44Z"
 		},
 		{
+			"checksumSHA1": "3DogKiUssVJjMAg452DPNZ0AmBs=",
+			"path": "github.com/go-ini/ini",
+			"revision": "6ed8d5f64cd79a498d1f3fab5880cc376ce41bbe",
+			"revisionTime": "2019-01-03T01:53:35Z"
+		},
+		{
 			"checksumSHA1": "wmiJbuFVCxg22zwXIeLsVCudyeY=",
 			"path": "github.com/go-sql-driver/mysql",
 			"revision": "c45f530f8e7fe40f4687eaa50d0c8c5f1b66f9e0",
@@ -29,6 +35,12 @@
 		{
 			"checksumSHA1": "lt5bm512Xe/DCnDb61pueSy8dQQ=",
 			"path": "github.com/jinzhu/gorm",
+			"revision": "9f1a7f53511168c0567b4b4b4f10ab7d21265174",
+			"revisionTime": "2019-01-02T13:32:08Z"
+		},
+		{
+			"checksumSHA1": "eECxSkwh0WmhLwaxHfkvcLOWS08=",
+			"path": "github.com/jinzhu/gorm/dialects/mysql",
 			"revision": "9f1a7f53511168c0567b4b4b4f10ab7d21265174",
 			"revisionTime": "2019-01-02T13:32:08Z"
 		},
