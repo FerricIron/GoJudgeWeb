@@ -15,7 +15,7 @@ func main() {
 	r.Use(cors.New(cors.Config{
 		AllowAllOrigins:true,
 		AllowMethods:     []string{"PUT", "PATCH","POST","GET"},
-		AllowHeaders:     []string{"Origin","token"},
+		AllowHeaders:     []string{"Origin","token","content-type"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 		MaxAge: 12 * time.Hour,
