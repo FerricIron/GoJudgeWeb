@@ -2,19 +2,19 @@ package model
 
 import (
 	"fmt"
+	"github.com/ferriciron/GoJudgeWeb/common"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"github.com/ferriciron/GoJudgeWeb/common"
 )
 
 func init() {
 	common.ParseConfig()
 	initTables()
 }
-func getDSN()string{
-	config:=common.GlobalConfig
+func getDSN() string {
+	config := common.GlobalConfig
 	var DSN string = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True",
-		config.DataBase.Username,config.DataBase.Password,config.DataBase.Address,config.DataBase.Port,config.DataBase.Name)
+		config.DataBase.Username, config.DataBase.Password, config.DataBase.Address, config.DataBase.Port, config.DataBase.Name)
 	return DSN
 }
 
@@ -24,7 +24,9 @@ func initTables() {
 	if err != nil {
 		panic("Can not connect database.Check config plz\n")
 	}
+	db.AutoMigrate(&Log{})
 	db.AutoMigrate(&School{})
+	db.AutoMigrate(&ServerRuntimeLog{})
 	db.AutoMigrate(&User{})
 	db.AutoMigrate(&Problem{})
 	db.AutoMigrate(&Submit{})
