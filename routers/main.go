@@ -6,6 +6,6 @@ import (
 
 func SetRouters(r *gin.Engine) {
 	SetApiRouters(r.Group("/api"))
-	SetWebRouters(r.Group("/web"))
+	SetDataRouters(r.Group("/data"))
 	setAuthorizeRouters(r.Group("/authorize"))
 }

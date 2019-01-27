@@ -65,11 +65,11 @@ func Login(c *gin.Context) {
 		return
 	}
 	c.Header("token", token)
-	ret,err:=json.Marshal(&user)
-	if err!=nil{
-		c.AbortWithStatusJSON(http.StatusOK,gin.H{
-			"errCode":common.JSONComponentUnavaliable,
-			"message":err.Error(),
+	ret, err := json.Marshal(&user)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{
+			"errCode": common.JSONComponentUnavaliable,
+			"message": err.Error(),
 		})
 		return
 	}
