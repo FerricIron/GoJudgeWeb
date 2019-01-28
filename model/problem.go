@@ -1,5 +1,7 @@
 package model
 
+import "math"
+
 type Problem struct {
 	ProblemId   int    `gorm:"AUTO_INCREMENT;PRIMARY_KEY"`
 	ProblemName string `gorm:"type:varchar(128);NOT NULL"`
@@ -38,7 +40,7 @@ func SelectProblemList(page,capacity int)(data []Problem,maxPage int,err error){
 	}
 	offset:=(page-1)*capacity
 	err=db.Table("problems").Count(&maxPage).Error
-	maxPage=maxPage/capacity
+	maxPage=int(math.Ceil(float64(maxPage)/float64(capacity)))
 	if err!=nil{
 		return nil,0,err
 	}
