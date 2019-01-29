@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/ferriciron/GoJudgeWeb/common"
+	"github.com/ferriciron/GoJudgeWeb/email"
 	"github.com/ferriciron/GoJudgeWeb/model"
 	"github.com/ferriciron/GoJudgeWeb/routers"
 	"github.com/gin-contrib/cors"
@@ -13,6 +14,7 @@ import (
 )
 
 func main() {
+	email.TestSend()
 	common.ParseConfig()
 	go ConfigFileWatching()
 	r := gin.New()
