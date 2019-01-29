@@ -2,6 +2,7 @@ package authorize
 
 import (
 	"github.com/ferriciron/GoJudgeWeb/common"
+	"github.com/ferriciron/GoJudgeWeb/email"
 	"github.com/ferriciron/GoJudgeWeb/model"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -13,6 +14,7 @@ type registerForm struct {
 	Nickname    string `form:"nickname" binding:"required"`
 	Description string `form:"description"`
 	Sid         int    `form:"sid"`
+	Email 		string 	`form:"email"`
 }
 func CheckRegisterForm(form registerForm) bool {
 	if !CheckLoginForm(loginForm{form.Username,form.Password}){
@@ -55,6 +57,9 @@ func Register(c *gin.Context) {
 			})
 		return
 	}
+	if register.Email!="" {
+		email.SendRegisterEmail(user, register.Email)
+	}	
 	c.JSON(http.StatusOK,
 		gin.H{
 			"errCode": common.Success,
