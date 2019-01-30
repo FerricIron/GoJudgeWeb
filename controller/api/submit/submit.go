@@ -48,15 +48,15 @@ func submitToJudgeServer(submit submitStruct) {
 	listenAddress := fmt.Sprintf("http://%s:%s/submit_task", common.GlobalConfig.JudgeServer.Address, common.GlobalConfig.JudgeServer.Port)
 	fmt.Print(listenAddress)
 	client := http.Client{}
-	data,_:=submit.StructToBytes()
-	requests,err:=http.NewRequest("POST",listenAddress,bytes.NewReader(data))
-	if err!=nil{
+	data, _ := submit.StructToBytes()
+	requests, err := http.NewRequest("POST", listenAddress, bytes.NewReader(data))
+	if err != nil {
 		fmt.Print(err.Error())
 	}
 	requests.Header.Set("Content-Type", "application/json;charset=UTF-8")
-	resp,err:=client.Do(requests)
+	resp, err := client.Do(requests)
 	defer resp.Body.Close()
-	if err!=nil{
+	if err != nil {
 		fmt.Print(err)
 	}
 	respBytes, err := ioutil.ReadAll(resp.Body)
@@ -121,15 +121,27 @@ func Submit(c *gin.Context) {
 			})
 		return
 	}
+	user, err := model.SelectUser(claims.UID)
+	if err != nil {
+		model.ServerLog(err.Error())
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{
+			"errCode": common.DataBaseUnavaliable,
+			"message": "no such user",
+		})
+
+	}
+
 	submitModel := model.Submit{
-		Uid:        claims.UID,
-		Time:       int(time.Now().Unix()),
-		Language:   submit.Language,
-		SourceCode: model.SourceCode{},
-		Scid:       sourceCode.Scid,
-		ContestId:  submit.ContestID,
-		ProblemId:  submit.ProblemID,
-		Status:     0,
+		Uid:         claims.UID,
+		Username:    user.Username,
+		ProblemName: problem.ProblemName,
+		Time:        int(time.Now().Unix()),
+		Language:    submit.Language,
+		SourceCode:  model.SourceCode{},
+		Scid:        sourceCode.Scid,
+		ContestId:   submit.ContestID,
+		ProblemId:   submit.ProblemID,
+		Status:      0,
 	}
 	err = model.InsertSubmit(&submitModel)
 	if err != nil {

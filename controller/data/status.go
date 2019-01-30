@@ -27,11 +27,11 @@ func statusListRetWrapper(data []model.Submit,maxPage int)(interface{}){
 	for _, v := range data {
 		retDt=append(retDt, statusLIstRetStruct{
 			SubmitId:    v.SubmitId,
-			UserName:    v.User.Username,
+			UserName:    v.Username,
 			Uid:         v.Uid,
 			Time:        v.Time,
 			Language:    v.Language,
-			ProblemName: v.Problem.ProblemName,
+			ProblemName: v.ProblemName,
 			ProblemId:   v.ProblemId,
 			Status:      v.Status,
 			TimeCost:    v.TimeCost,
