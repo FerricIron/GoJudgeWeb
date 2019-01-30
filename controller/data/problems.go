@@ -7,21 +7,23 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
-type problemQuery struct{
-	Page int `form:"page" binding:"required"`
+
+type problemQuery struct {
+	Page     int `form:"page" binding:"required"`
 	Capacity int `form:"capacity" binding:"required"`
 }
-type retStruct struct{
-	ProblemId   int    	`json:"pid"`
-	ProblemName string	`json:"name"`
-	Privilege	int    	`json:"privilege"`
-	SubmitCount string 	`json:"submit"`
-	Solved      string 	`json:"solved"`
+type problemListRetStruct struct {
+	ProblemId   int    `json:"pid"`
+	ProblemName string `json:"name"`
+	Privilege   int    `json:"privilege"`
+	SubmitCount string `json:"submit"`
+	Solved      string `json:"solved"`
 }
-func retWrapper(data []model.Problem,maxPage int)(interface{}){
-	var retDt []retStruct
+
+func problemListRetWrapper(data []model.Problem, maxPage int) interface{} {
+	var retDt []problemListRetStruct
 	for _, v := range data {
-		retDt=append(retDt, retStruct{
+		retDt = append(retDt, problemListRetStruct{
 			ProblemId:   v.ProblemId,
 			ProblemName: v.ProblemName,
 			Privilege:   v.Privilege,
@@ -30,48 +32,48 @@ func retWrapper(data []model.Problem,maxPage int)(interface{}){
 		})
 	}
 	return struct {
-		MaxPage int 		`json:"maxPage"`
-		Data	[]retStruct	`json:"data"`
+		MaxPage int                    `json:"maxPage"`
+		Data    []problemListRetStruct `json:"data"`
 	}{
 		MaxPage: maxPage,
 		Data:    retDt,
 	}
 }
 
-func GetProblemsList(c *gin.Context){
+func GetProblemsList(c *gin.Context) {
 	var queryStruct problemQuery
-	err:=c.ShouldBind(&queryStruct)
-	if err!=nil{
+	err := c.ShouldBind(&queryStruct)
+	if err != nil {
 		model.ServerLog(err.Error())
 		c.AbortWithStatusJSON(http.StatusOK,
 			gin.H{
-				"errCode":common.InvalidForm,
-				"message":"InvalidForm",
+				"errCode": common.InvalidForm,
+				"message": "InvalidForm",
 			})
 		return
 	}
-	data,maxPage,err:=model.SelectProblemList(queryStruct.Page,queryStruct.Capacity)
-	if err!=nil{
+	data, maxPage, err := model.SelectProblemList(queryStruct.Page, queryStruct.Capacity)
+	if err != nil {
 		model.ServerLog(err.Error())
 		c.AbortWithStatusJSON(http.StatusOK,
 			gin.H{
-				"errCode":common.DataBaseUnavaliable,
-				"message":"Database unavaliable",
+				"errCode": common.DataBaseUnavaliable,
+				"message": "Database unavaliable",
 			})
 		return
 	}
-	ret,err:=json.Marshal(retWrapper(data,maxPage))
-	if err!=nil{
+	ret, err := json.Marshal(problemListRetWrapper(data, maxPage))
+	if err != nil {
 		model.ServerLog(err.Error())
 		c.AbortWithStatusJSON(http.StatusOK,
 			gin.H{
-				"errCode":common.JSONComponentUnavaliable,
-				"message":"Json Marshal error",
+				"errCode": common.JSONComponentUnavaliable,
+				"message": "Json Marshal error",
 			})
 		return
 	}
-	c.JSON(http.StatusOK,gin.H{
-		"errCode":common.Success,
-		"message":ret,
+	c.JSON(http.StatusOK, gin.H{
+		"errCode": common.Success,
+		"message": ret,
 	})
 }

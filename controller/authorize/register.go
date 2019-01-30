@@ -59,7 +59,7 @@ func Register(c *gin.Context) {
 	}
 	if register.Email!="" {
 		email.SendRegisterEmail(user, register.Email)
-	}	
+	}
 	c.JSON(http.StatusOK,
 		gin.H{
 			"errCode": common.Success,
