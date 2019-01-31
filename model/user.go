@@ -13,7 +13,7 @@ type User struct {
 	Password    string `gorm:"type:char(32);NOT NULL" json:"password,omitempty"`
 	Description string `gorm:"type:varchar(255)" json:"description"`
 	School      School `gorm:"ForeignKey:Sid;" json:"school"`
-	Email		string `gorm:"type:varchar(64);" json:"email"`
+	Email       string `gorm:"type:varchar(64);" json:"email"`
 	Sid         int    `gorm:"type:int;NOT NULL" json:"sid"`
 	Privilege   int    `gorm:"type:int;NOT NULL" json:"privilege"`
 	SubmitCount int    `gorm:"type:int;NOT NULL" json:"submitcount"`
@@ -42,28 +42,29 @@ func CheckUserPassword(username, password string) (user *User, err error) {
 	if err != nil {
 		return nil, err
 	}
-	err = db.Where("username = ? AND password = ?", username, pass).First(&user).Error
-	return
+	var ret User
+	err = db.Where("username = ? AND password = ?", username, pass).First(&ret).Error
+	return &ret, err
 }
-func UpdateUser(uid int,user *User)(*User,error){
-	db,err:=openConnect()
-	if err!=nil{
-		return nil,err
+func UpdateUser(uid int, user *User) (*User, error) {
+	db, err := openConnect()
+	if err != nil {
+		return nil, err
 	}
 	var ret User
-	err=db.Find(&ret).Where("uid=?",uid).Error
-	if err!=nil{
-		return nil,err
+	err = db.Find(&ret).Where("uid=?", uid).Error
+	if err != nil {
+		return nil, err
 	}
-	err=db.Model(ret).UpdateColumns(user).First(&ret).Error
-	return &ret,err
+	err = db.Model(ret).UpdateColumns(user).First(&ret).Error
+	return &ret, err
 }
-func SelectUser(uid int)(user *User,err error){
-	db,err:=openConnect()
-	if err!=nil{
-		return nil,err
+func SelectUser(uid int) (user *User, err error) {
+	db, err := openConnect()
+	if err != nil {
+		return nil, err
 	}
-	user = new(User	)
-	err=db.Find(user).Where("uid=?",uid).Error
+	user = new(User)
+	err = db.Find(user).Where("uid=?", uid).Error
 	return
 }

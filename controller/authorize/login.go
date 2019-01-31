@@ -5,6 +5,7 @@ import (
 	"github.com/ferriciron/GoJudgeWeb/common"
 	"github.com/ferriciron/GoJudgeWeb/model"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 )
 
@@ -46,6 +47,7 @@ func Login(c *gin.Context) {
 			})
 		return
 	}
+	log.Println(login.Username, login.Password)
 	user, err := model.CheckUserPassword(login.Username, login.Password)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusOK,
